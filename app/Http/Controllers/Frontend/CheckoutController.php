@@ -22,6 +22,9 @@ class CheckoutController extends Controller
         $order = new Order();
         $order->user_id = Auth::id();
         $order->email = $request->input('email');
+        $order->payment_method = $request->input('payment_mode');
+        $order->payment_id = $request->input('payment_id');
+
         $total = 0;
         $caritems_total = Cart::where('user_id', Auth::id())->get();
         foreach ($caritems_total as $prod) {
@@ -50,6 +53,11 @@ class CheckoutController extends Controller
 
         $cartItems = Cart::where('user_id', Auth::id())->get();
         Cart::destroy($cartItems);
+
+        if ($request->input('payment_method' == 'By PayPal')) {
+            return response()->json(['status' => "Pedido realizado com sucesso!"]);
+        }
+
         return redirect('/')->with('status', "Pedido realizado com sucesso!");
     }
 }

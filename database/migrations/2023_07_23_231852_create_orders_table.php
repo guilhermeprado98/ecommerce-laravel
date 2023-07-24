@@ -22,6 +22,8 @@ class CreateOrdersTable extends Migration
             $table->string('total_price');
             $table->string('comissao_afiliado');
             $table->string('comissao_produtor');
+            $table->string('payment_method');
+            $table->string('payment_id');
             $table->timestamps();
         });
     }

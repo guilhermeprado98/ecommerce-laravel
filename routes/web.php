@@ -71,4 +71,5 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('produtores', [ProdutorController::class, 'index']);
     Route::get('add-produtores', [ProdutorController::class, 'add']);
     Route::post('insert_produtores', 'Admin\ProdutorController@insert_produtores');
+
 });
