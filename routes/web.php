@@ -54,6 +54,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     Route::get('products', [ProductController::class, 'index']);
 
+    Route::get('data', 'Admin\ProductController@getData')->name('products.data');
+
     Route::get('add-products', [ProductController::class, 'add']);
     Route::post('insert-products', [ProductController::class, 'insert']);
     Route::get('edit-product/{id}', [ProductController::class, 'edit']);

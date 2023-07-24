@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Produtor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\DataTables;
 
 class ProductController extends Controller
 {
@@ -18,13 +19,17 @@ class ProductController extends Controller
         return view('admin.products.index', compact('products'));
     }
 
-    public function datatable(Request $request)
+    public function getData()
     {
-        if ($request->ajax()) {
-            return datatables(Product::query())->toJson();
-        }
+        $products = Product::with(['category', 'afiliado', 'produtor'])->select('products.*');
 
-        return view('admin.products.datatable');
+        return DataTables::of($products)
+            ->addColumn('action', function ($product) {
+                return '<a href="' . url('edit-product/' . $product->id) . '" class="btn btn-primary">Editar</a>'
+                . '<a href="' . url('delete-product/' . $product->id) . '" class="btn btn-danger">Deletar</a>';
+            })
+            ->rawColumns(['action'])
+            ->toJson();
     }
 
     public function add()
